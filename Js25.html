@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        div {
+            width: 400px;
+            height: 350px;
+            margin: auto;
+            border: 3px solid steelblue;
+            text-align: justify;
+        }
+    </style>
+    <script>
+        function validateName() {
+            var vnm = document.getElementById("name").value;
+            if (vnm == null || vnm == "" || vnm.trim().length == 0 || vnm.length < 6) {
+                document.getElementById("vnm").innerHTML = "Cust name must be greater than 5 characters."
+                return false;
+            } else {
+
+                document.getElementById("vnm").innerHTML = "";
+                return true;
+            }
+
+        }
+        function validateBdate() {
+            var billdate = document.getElementById("bdate").value;
+            var shipdate = document.getElementById("sdate").value;
+            if (billdate < shipdate) {
+                document.getElementById("vbdate").innerHTML = "";
+                return true;
+            } else {
+                document.getElementById("vbdate").innerHTML = "Billing date must be lesser than shipping date"
+                return false;
+
+            }
+        }
+
+        //creating object
+        var order = function (oid, name, bdate, sdate, ototal) {
+            this.oid = oid;
+            this.name = name;
+            this.bdate = bdate;
+            this.sdate = sdate;
+            this.ototal = ototal;
+        };
+
+        //to retrieve data 
+        function adddata() {
+            var oid = document.getElementById("oid").value;
+            var name = document.getElementById("name").value;
+            var bdate = document.getElementById("bdate").value;
+            var sdate = document.getElementById("sdate").value;
+            var ototal = document.getElementById("ototal").value;
+
+            var order1 = new order(oid, name, bdate, sdate, ototal);
+
+            var str = `Order id : ${order1.oid} <br>
+                Customer Name : ${order1.name} <br>
+                Billing Date : ${order1.bdate} <br>
+                Shipping Date : ${order1.sdate} <br>
+                Order Total : ${order1.ototal} <br>`;
+
+            var w = window.open("", "_blank");
+            w.document.write(str);
+        }
+        function validate() {
+            var flag1 = validateName();
+            var flag2 = validateBdate();
+            if (flag1 && flag2) {
+                adddata();
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <br>
+        Order ID:<input type="text" name="oid" id="oid" required><br><br>
+        Cust name:<input type="text" name="name" id="name" required>
+        <p id="vnm" style="color: red;"></p>
+        Enter Billing Date:<input type="date" name="bdate" id="bdate" required>
+        <p id="vbdate" style="color: red;"></p>
+        Enter Shipping Date:<input type="date" name="sdate" id="sdate" required><br><br>
+        Order total:<input type="text" name="ototal" id="ototal" required><br><br>
+        <button type="button" name="disp" id="disp" onclick="validate()">Display</button>
+
+    </div>
+</body>
+
+</html>
